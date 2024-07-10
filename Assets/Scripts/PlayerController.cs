@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    float x;
+    float z;
     public CharacterController characterController;
     public float speed = 12f;
     public float gravity = -9.8f;
@@ -27,8 +29,8 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = -2f;
         }
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        x = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
         characterController.Move(move * speed * Time.deltaTime);

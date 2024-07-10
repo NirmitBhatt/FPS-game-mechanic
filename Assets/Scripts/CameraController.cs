@@ -5,11 +5,19 @@ using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour
 {
+    const string Mouse_X = "Mouse X";
+    const string Mouse_Y = "Mouse Y";
+
+    [SerializeField]
+    private float mouseSensitivity = 10f;
+
+    private float mouseX;
+    private float mouseY;
     private float xRotation = 0f;
-    public float mouseSensitivity = 10f;
+
     public Transform playerBody;
     public Transform cameraBody;
-    // Start is called before the first frame update
+
     void Start()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -18,13 +26,26 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-        
+        RotateCameraWithMouse();
+    }
+
+    private void RotateCameraWithMouse()
+    {
+        RotateCameraOnXAxis();
+        RotateCameraOnYAxis();
+    }
+
+    private void RotateCameraOnYAxis()
+    {
+        mouseY = Input.GetAxis(Mouse_Y) * mouseSensitivity * Time.deltaTime;
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    private void RotateCameraOnXAxis()
+    {
+        mouseX = Input.GetAxis(Mouse_X) * mouseSensitivity * Time.deltaTime;
         playerBody.Rotate(Vector3.up * mouseX);
     }
 }
